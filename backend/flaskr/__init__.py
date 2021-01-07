@@ -29,6 +29,19 @@ def create_app(test_config=None):
         return response
 
 
+    @app.route('/categories')
+    def retrieve_categories():
+        categories = Category.query.order_by(Category.type).all()
+
+        if len(categories) == 0:
+            abort(404)
+
+        return jsonify({
+            'success': True,
+            'categories': {c.id: c.type for c in categories}
+        })
+
+
     '''
     @TODO:
     Create an endpoint to handle GET requests for questions,
