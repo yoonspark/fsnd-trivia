@@ -1,100 +1,100 @@
-# Full Stack Trivia API Backend
+# Trivia: Backend
+
+Trivia app’s backend server hosted locally at `http://127.0.0.1:5000/`.
 
 ## Getting Started
 
-### Installing Dependencies
+### Installing Dependendies
 
-#### Python 3.7
+The current project repo uses [`poetry`](https://python-poetry.org/docs/) to manage
+dependencies among different Python packages, which is essential to reproducibility.
+Following are steps for setting up and getting started:
 
-Follow instructions to install the latest version of python for your platform in the [python docs](https://docs.python.org/3/using/unix.html#getting-and-installing-the-latest-version-of-python)
-
-#### Virtual Enviornment
-
-We recommend working within a virtual environment whenever using Python for projects. This keeps your dependencies for each project separate and organaized. Instructions for setting up a virual enviornment for your platform can be found in the [python docs](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
-
-#### PIP Dependencies
-
-Once you have your virtual environment setup and running, install dependencies by naviging to the `/backend` directory and running:
-
-```bash
-pip install -r requirements.txt
+First, ensure you are using the right version of Python (`^3.8`). You may want to
+use [`pyenv`](https://github.com/pyenv/pyenv) to effectively manage multiple versions
+of Python installation. You can then install `poetry`:
+```
+$ pip install poetry
 ```
 
-This will install all of the required packages we selected within the `requirements.txt` file.
+Once you clone the current repo into your local machine, you can go inside the repo and run:
+```
+$ poetry install
+```
+to install the right versions of packages for running scripts in the project repo.
 
-##### Key Dependencies
+To use the new Python configuration that has been installed, you need to run:
+```
+$ poetry shell
+```
+which will activate the virtual environment for the project repo.
 
-- [Flask](http://flask.pocoo.org/)  is a lightweight backend microservices framework. Flask is required to handle requests and responses.
+You can simply type:
+```
+$ exit
+```
+to exit from the virtual environment and return to the global (or system) Python installation.
 
-- [SQLAlchemy](https://www.sqlalchemy.org/) is the Python SQL toolkit and ORM we'll use handle the lightweight sqlite database. You'll primarily work in app.py and can reference models.py. 
+### Setting up the Database
 
-- [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/#) is the extension we'll use to handle cross origin requests from our frontend server. 
+Once the virtual environment is activated, restore the PostgreSQL database to connect and use:
+```
+$ createdb trivia
+$ psql -d trivia -U [username] -a -f trivia.psql
+```
+where you need to put your system's valid user in `[username]`.
 
-## Database Setup
-With Postgres running, restore a database using the trivia.psql file provided. From the backend folder in terminal run:
-```bash
-psql trivia < trivia.psql
+### Running the Server
+
+Finally, you can launch the backend server:
+```
+$ export FLASK_APP=flaskr
+$ export FLASK_ENV=development
+$ flask run
 ```
 
-## Running the server
+For successful launch, make sure that the virtual environment has been activated.
 
-From within the `backend` directory first ensure you are working using your created virtual environment.
+### Testing
 
-To run the server, execute:
-
-```bash
-export FLASK_APP=flaskr
-export FLASK_ENV=development
-flask run
+You can run tests to ensure the API is working as expected:
+```
+$ createdb trivia_test
+$ psql -d trivia_test -U [username] -a -f trivia.psql
+$ python test_flaskr.py
 ```
 
-Setting the `FLASK_ENV` variable to `development` will detect file changes and restart the server automatically.
+## API Reference
 
-Setting the `FLASK_APP` variable to `flaskr` directs flask to use the `flaskr` directory and the `__init__.py` file to find the application. 
+### `GET` /categories
 
-## Tasks
+Fetch existing categories.
 
-One note before you delve into your tasks: for each endpoint you are expected to define the endpoint and response data. The frontend will be a plentiful resource because it is set up to expect certain endpoints and response data formats already. You should feel free to specify endpoints in your own way; if you do so, make sure to update the frontend or you will get some unexpected behavior. 
+#### Parameters
 
-1. Use Flask-CORS to enable cross-domain requests and set response headers. 
-2. Create an endpoint to handle GET requests for questions, including pagination (every 10 questions). This endpoint should return a list of questions, number of total questions, current category, categories. 
-3. Create an endpoint to handle GET requests for all available categories. 
-4. Create an endpoint to DELETE question using a question ID. 
-5. Create an endpoint to POST a new question, which will require the question and answer text, category, and difficulty score. 
-6. Create a POST endpoint to get questions based on category. 
-7. Create a POST endpoint to get questions based on a search term. It should return any questions for whom the search term is a substring of the question. 
-8. Create a POST endpoint to get questions to play the quiz. This endpoint should take category and previous question parameters and return a random questions within the given category, if provided, and that is not one of the previous questions. 
-9. Create error handlers for all expected errors including 400, 404, 422 and 500. 
+None.
 
-REVIEW_COMMENT
-```
-This README is missing documentation of your endpoints. Below is an example for your endpoint to get all categories. Please use it as a reference for creating your documentation and resubmit your code. 
-
-Endpoints
-GET '/categories'
-GET ...
-POST ...
-DELETE ...
-
-GET '/categories'
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
-- Request Arguments: None
-- Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
-{'1' : "Science",
-'2' : "Art",
-'3' : "Geography",
-'4' : "History",
-'5' : "Entertainment",
-'6' : "Sports"}
+**Sample: Request Body**
 
 ```
-
-
-## Testing
-To run the tests, run
 ```
-dropdb trivia_test
-createdb trivia_test
-psql trivia_test < trivia.psql
-python test_flaskr.py
+
+#### Returns
+
+A dictionary of categories where the key and value are category ID and name, respectively.
+
+**Sample: Response**
+
+```
+{
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "success": true
+}
 ```
