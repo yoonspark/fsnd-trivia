@@ -11,5 +11,6 @@ the question, category and difficulty rating by default and can show/hide the an
 4) Search for questions based on a text query string.
 5) Play the quiz game, randomizing either all questions or within a specific category.
 
-The application is locally hosted at `http://127.0.0.1:5000/` (backend)
-and `http://127.0.0.1:3000/` (frontend). More details can be found in each stack's subdirectory.
+The application is locally hosted at `http://127.0.0.1:5000/` ([backend](https://github.com/yoonspark/fsnd-trivia/tree/master/backend))
+and `http://127.0.0.1:3000/` ([frontend](https://github.com/yoonspark/fsnd-trivia/tree/master/frontend)).
+More details can be found in each stack's subdirectory.
