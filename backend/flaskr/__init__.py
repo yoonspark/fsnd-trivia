@@ -55,18 +55,22 @@ def create_app(test_config=None):
         })
 
 
-    '''
-    @TODO:
-    Create an endpoint to handle GET requests for questions,
-    including pagination (every 10 questions).
-    This endpoint should return a list of questions,
-    number of total questions, current category, categories.
+    @app.route('/questions')
+    def retrieve_questions():
+        categories = Category.query.order_by(Category.type).all()
+        questions = Question.query.order_by(Question.id).all()
+        current_questions = paginate_questions(request, questions)
 
-    TEST: At this point, when you start the application
-    you should see questions and categories generated,
-    ten questions per page and pagination at the bottom of the screen for three pages.
-    Clicking on the page numbers should update the questions.
-    '''
+        if len(categories) == 0 or len(current_questions) == 0:
+            abort(404)
+
+        return jsonify({
+            'success': True,
+            'categories': {c.id: c.type for c in categories},
+            'questions': current_questions,
+            'total_questions': len(questions),
+        })
+
 
     '''
     @TODO:
@@ -120,10 +124,12 @@ def create_app(test_config=None):
     and shown whether they were correct or not.
     '''
 
-    '''
-    @TODO:
-    Create error handlers for all expected errors
-    including 404 and 422.
-    '''
+    @app.errorhandler(404)
+    def not_found(error):
+        return jsonify({
+            "success": False,
+            "error": 404,
+            "message": "resource not found",
+        }), 404
 
     return app
