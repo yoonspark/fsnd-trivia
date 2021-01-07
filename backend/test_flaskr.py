@@ -43,7 +43,6 @@ class TriviaTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertTrue(data['current_category'])
         self.assertIsInstance(data['categories'], dict)
         self.assertIsInstance(data['questions'], list)
         self.assertIsInstance(data['total_questions'], int)
