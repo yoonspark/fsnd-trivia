@@ -74,7 +74,7 @@ Fetch existing categories.
 
 None.
 
-**Sample: Request Body**
+**Request Body (Sample)**
 
 ```
 ```
@@ -83,7 +83,7 @@ None.
 
 A dictionary of categories where the key and value are category ID and name, respectively.
 
-**Sample: Response**
+**Response (Sample)**
 
 ```
 {
