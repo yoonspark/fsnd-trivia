@@ -66,8 +66,6 @@ $ python test_flaskr.py
 
 ## API Reference
 
----
-
 ### `GET` */categories*
 
 Fetch existing categories.
