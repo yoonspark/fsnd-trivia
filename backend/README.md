@@ -66,8 +66,9 @@ $ python test_flaskr.py
 
 ## API Reference
 
-### `GET` */categories*
 ---
+
+### `GET` */categories*
 
 Fetch existing categories.
 
@@ -103,8 +104,9 @@ $ curl -X GET "http://127.0.0.1:5000/categories"
 }
 ```
 
-### `GET` */questions*
 ---
+
+### `GET` */questions*
 
 Fetch existing questions with pagination. Each page contains 10 questions.
 If no page is specified, `page=1` is rendered by default.
