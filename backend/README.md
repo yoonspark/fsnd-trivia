@@ -70,20 +70,20 @@ $ python test_flaskr.py
 
 Fetch existing categories.
 
-#### Parameters
+#### *Parameters:*
 
 None.
 
-**Request Body (Sample)**
+#### *Request Body:*
 
 ```
 ```
 
-#### Returns
+#### *Returns:*
 
 A dictionary of categories where the key and value are category ID and name, respectively.
 
-**Response (Sample)**
+#### *Response:*
 
 ```
 {
