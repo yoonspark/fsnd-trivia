@@ -66,25 +66,29 @@ $ python test_flaskr.py
 
 ## API Reference
 
-### `GET` /categories
+### `GET` */categories*
+---
 
 Fetch existing categories.
 
-#### *Parameters:*
+#### REQUEST
 
-None.
+*Path Parameters:* None
 
-#### *Request Body:*
+*Query Parameters:* None
 
+*Request Body:* None
+
+*Example:*
 ```
+$ curl -X GET "http://127.0.0.1:5000/categories"
 ```
 
-#### *Returns:*
+#### RESPONSE
 
-A dictionary of categories where the key and value are category ID and name, respectively.
+`200`: Returns a dictionary of categories where the key and value are category ID and name, respectively.
 
-#### *Response:*
-
+*Example:*
 ```
 {
   "categories": {
@@ -96,5 +100,110 @@ A dictionary of categories where the key and value are category ID and name, res
     "6": "Sports"
   },
   "success": true
+}
+```
+
+### `GET` */questions*
+---
+
+Fetch existing questions with pagination. Each page contains 10 questions.
+If no page is specified, `page=1` is rendered by default.
+
+#### REQUEST
+
+*Path Parameters:*
+- `page` (optional): Page to fetch and render. Defaults to 1.
+
+*Query Parameters:* None
+
+*Request Body:* None
+
+*Example:*
+```
+$ curl -X GET "http://127.0.0.1:5000/questions?page=2"
+```
+
+#### RESPONSE
+
+`200`: Returns a collection of questions in the given page.
+
+*Example:*
+```
+{
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "questions": [
+    {
+      "answer": "Agra",
+      "category": 3,
+      "difficulty": 2,
+      "id": 15,
+      "question": "The Taj Mahal is located in which Indian city?"
+    },
+    {
+      "answer": "Escher",
+      "category": 2,
+      "difficulty": 1,
+      "id": 16,
+      "question": "Which Dutch graphic artist\u2013initials M C was a creator of optical illusions?"
+    },
+    {
+      "answer": "Mona Lisa",
+      "category": 2,
+      "difficulty": 3,
+      "id": 17,
+      "question": "La Giaconda is better known as what?"
+    },
+    {
+      "answer": "One",
+      "category": 2,
+      "difficulty": 4,
+      "id": 18,
+      "question": "How many paintings did Van Gogh sell in his lifetime?"
+    },
+    {
+      "answer": "Jackson Pollock",
+      "category": 2,
+      "difficulty": 2,
+      "id": 19,
+      "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?"
+    },
+    {
+      "answer": "The Liver",
+      "category": 1,
+      "difficulty": 4,
+      "id": 20,
+      "question": "What is the heaviest organ in the human body?"
+    },
+    {
+      "answer": "Alexander Fleming",
+      "category": 1,
+      "difficulty": 3,
+      "id": 21,
+      "question": "Who discovered penicillin?"
+    },
+    {
+      "answer": "Blood",
+      "category": 1,
+      "difficulty": 4,
+      "id": 22,
+      "question": "Hematology is a branch of medicine involving the study of what?"
+    },
+    {
+      "answer": "Scarab",
+      "category": 4,
+      "difficulty": 4,
+      "id": 23,
+      "question": "Which dung beetle was worshipped by the ancient Egyptians?"
+    }
+  ],
+  "success": true,
+  "total_questions": 19
 }
 ```
