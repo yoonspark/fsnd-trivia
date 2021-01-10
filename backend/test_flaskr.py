@@ -69,7 +69,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertIsInstance(data['questions'], list)
         self.assertIsInstance(data['total_questions'], int)
-        # self.assertEqual(len(data['questions']), 10)
+        self.assertEqual(len(data['questions']), 1)
 
     def test_search_questions_no_match(self):
         res = self.client().post('/questions', json={'searchTerm': '한국'})
