@@ -72,22 +72,22 @@ Fetch existing categories.
 
 #### REQUEST
 
-*Path Parameters:* None
+- *Path Parameters:* None
 
-*Query Parameters:* None
+- *Query Parameters:* None
 
-*Request Body:* None
+- *Request Body:* None
 
-*Example:*
+- *Example:*
 ```
-$ curl -X GET "http://127.0.0.1:5000/categories"
+$ curl "http://127.0.0.1:5000/categories"
 ```
 
 #### RESPONSE
 
-`200`: Returns a dictionary of categories where the key and value are category ID and name, respectively.
+- `200`: Returns a dictionary of categories where the key and value are category ID and name, respectively.
 
-*Example:*
+- *Example:*
 ```
 {
   "categories": {
@@ -111,23 +111,23 @@ If no page is specified, `page=1` is rendered by default.
 
 #### REQUEST
 
-*Path Parameters:*
-- `page` (optional): Page to fetch and render. Defaults to 1.
+- *Path Parameters:*
+    - `page` (optional): Page to fetch and render. Defaults to 1.
 
-*Query Parameters:* None
+- *Query Parameters:* None
 
-*Request Body:* None
+- *Request Body:* None
 
-*Example:*
+- *Example:*
 ```
 $ curl -X GET "http://127.0.0.1:5000/questions?page=2"
 ```
 
 #### RESPONSE
 
-`200`: Returns a collection of questions in the given page.
+- `200`: Returns a collection of questions in the given page.
 
-*Example:*
+- *Example:*
 ```
 {
   "categories": {
@@ -205,5 +205,50 @@ $ curl -X GET "http://127.0.0.1:5000/questions?page=2"
   ],
   "success": true,
   "total_questions": 19
+}
+```
+
+---
+
+### `POST` */questions*
+
+Search questions that match the provided string.
+
+#### REQUEST
+
+- *Path Parameters:*
+    - `page` (optional): Page to fetch and render. Defaults to 1.
+
+- *Query Parameters:* None
+
+- *Request Body:*
+    - `searchTerm`: String to match. Defaults to an empty string, which results in all questions being matched and returned.
+
+- *Example:*
+```
+$ curl "http://127.0.0.1:5000/questions" \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -d '{"searchTerm": "medicine"}'
+```
+
+#### RESPONSE
+
+- `200`: Returns a collection of questions that match the provided string.
+
+- *Example:*
+```
+{
+  "questions": [
+    {
+      "answer": "Blood",
+      "category": 1,
+      "difficulty": 4,
+      "id": 22,
+      "question": "Hematology is a branch of medicine involving the study of what?"
+    }
+  ],
+  "success": true,
+  "total_questions": 1
 }
 ```
