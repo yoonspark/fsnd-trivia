@@ -37,6 +37,8 @@ class TriviaTestCase(unittest.TestCase):
         self.assertIsInstance(data['categories'], dict)
         self.assertEqual(len(data['categories']), 6)
 
+    # --- VIEW QUESTIONS --- #
+
     def test_retrieve_questions(self):
         res = self.client().get('/questions')
         data = json.loads(res.data)
@@ -56,6 +58,36 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'resource not found')
+
+    # --- SEARCH QUESTIONS --- #
+
+    def test_search_questions(self):
+        res = self.client().post('/questions', json={'searchTerm': 'medicine'})
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertIsInstance(data['questions'], list)
+        self.assertIsInstance(data['total_questions'], int)
+        # self.assertEqual(len(data['questions']), 10)
+
+    def test_search_questions_no_match(self):
+        res = self.client().post('/questions', json={'searchTerm': '한국'})
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertIsInstance(data['questions'], list)
+        self.assertIsInstance(data['total_questions'], int)
+        self.assertEqual(len(data['questions']), 0)
+
+    def test_search_questions_no_args_passed(self):
+        res = self.client().post('/questions')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'bad request')
 
 
 # Make the tests conveniently executable

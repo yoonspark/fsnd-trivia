@@ -72,6 +72,27 @@ def create_app(test_config=None):
         })
 
 
+    @app.route('/questions', methods=['POST'])
+    def search_questions():
+        body = request.get_json()
+        if body:
+            search_term = body.get('searchTerm', '')
+        else:
+            abort(400)
+
+        selection = Question.query.filter(
+            Question.question.ilike("%{}%".format(search_term))
+        ).all()
+
+        current_questions = paginate_questions(request, selection)
+
+        return jsonify({
+            'success': True,
+            'questions': current_questions,
+            'total_questions': len(selection),
+        })
+
+
     '''
     @TODO:
     Create an endpoint to DELETE question using a question ID.
@@ -79,6 +100,7 @@ def create_app(test_config=None):
     TEST: When you click the trash icon next to a question, the question will be removed.
     This removal will persist in the database and when you refresh the page.
     '''
+
 
     '''
     @TODO:
@@ -91,16 +113,6 @@ def create_app(test_config=None):
     of the questions list in the "List" tab.
     '''
 
-    '''
-    @TODO:
-    Create a POST endpoint to get questions based on a search term.
-    It should return any questions for whom the search term
-    is a substring of the question.
-
-    TEST: Search by any phrase. The questions list will update to include
-    only question that include that string within their question.
-    Try using the word "title" to start.
-    '''
 
     '''
     @TODO:
@@ -124,6 +136,16 @@ def create_app(test_config=None):
     and shown whether they were correct or not.
     '''
 
+
+    @app.errorhandler(400)
+    def not_found(error):
+        return jsonify({
+            "success": False,
+            "error": 400,
+            "message": "bad request",
+        }), 400
+
+
     @app.errorhandler(404)
     def not_found(error):
         return jsonify({
@@ -131,5 +153,6 @@ def create_app(test_config=None):
             "error": 404,
             "message": "resource not found",
         }), 404
+
 
     return app
