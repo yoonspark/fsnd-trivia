@@ -210,6 +210,63 @@ $ curl "http://127.0.0.1:5000/questions?page=2"
 
 ---
 
+### `GET` */categories/<category_id>/questions*
+
+Fetch questions under a given category.
+
+#### REQUEST
+
+- *Path Parameters:*
+    - `category_id`: ID integer of the category to fetch questions for.
+
+- *Query Parameters:*
+    - `page` (optional): Page to fetch and render. Defaults to 1.
+
+- *Request Body:* None
+
+- *Example:*
+```
+$ curl "http://127.0.0.1:5000/categories/1/questions"
+```
+
+#### RESPONSE
+
+- `200`: Returns a collection of questions under the given category.
+
+- *Example:*
+```
+{
+  "current_category": 1,
+  "questions": [
+    {
+      "answer": "The Liver",
+      "category": 1,
+      "difficulty": 4,
+      "id": 20,
+      "question": "What is the heaviest organ in the human body?"
+    },
+    {
+      "answer": "Alexander Fleming",
+      "category": 1,
+      "difficulty": 3,
+      "id": 21,
+      "question": "Who discovered penicillin?"
+    },
+    {
+      "answer": "Blood",
+      "category": 1,
+      "difficulty": 4,
+      "id": 22,
+      "question": "Hematology is a branch of medicine involving the study of what?"
+    }
+  ],
+  "success": true,
+  "total_questions": 3
+}
+```
+
+---
+
 ### `POST` */questions*
 
 Search questions that match the provided string.
