@@ -120,7 +120,7 @@ If no page is specified, `page=1` is rendered by default.
 
 - *Example:*
 ```
-$ curl -X GET "http://127.0.0.1:5000/questions?page=2"
+$ curl "http://127.0.0.1:5000/questions?page=2"
 ```
 
 #### RESPONSE
