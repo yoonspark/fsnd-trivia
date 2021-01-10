@@ -55,6 +55,23 @@ def create_app(test_config=None):
         })
 
 
+    @app.route('/questions')
+    def retrieve_questions():
+        categories = Category.query.order_by(Category.type).all()
+        questions = Question.query.order_by(Question.id).all()
+        current_questions = paginate_questions(request, questions)
+
+        if len(categories) == 0 or len(current_questions) == 0:
+            abort(404)
+
+        return jsonify({
+            'success': True,
+            'categories': {c.id: c.type for c in categories},
+            'questions': current_questions,
+            'total_questions': len(questions),
+        })
+
+
     @app.route('/categories/<int:category_id>/questions')
     def retrieve_questions_by_category(category_id):
         questions = Question.query.filter(
@@ -68,23 +85,6 @@ def create_app(test_config=None):
         return jsonify({
             'success': True,
             'current_category': category_id,
-            'questions': current_questions,
-            'total_questions': len(questions),
-        })
-
-
-    @app.route('/questions')
-    def retrieve_questions():
-        categories = Category.query.order_by(Category.type).all()
-        questions = Question.query.order_by(Question.id).all()
-        current_questions = paginate_questions(request, questions)
-
-        if len(categories) == 0 or len(current_questions) == 0:
-            abort(404)
-
-        return jsonify({
-            'success': True,
-            'categories': {c.id: c.type for c in categories},
             'questions': current_questions,
             'total_questions': len(questions),
         })
