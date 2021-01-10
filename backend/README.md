@@ -112,9 +112,9 @@ If no page is specified, `page=1` is rendered by default.
 #### REQUEST
 
 - *Path Parameters:*
-    - `page` (optional): Page to fetch and render. Defaults to 1.
 
 - *Query Parameters:* None
+    - `page` (optional): Page to fetch and render. Defaults to 1.
 
 - *Request Body:* None
 
@@ -217,9 +217,9 @@ Search questions that match the provided string.
 #### REQUEST
 
 - *Path Parameters:*
-    - `page` (optional): Page to fetch and render. Defaults to 1.
 
 - *Query Parameters:* None
+    - `page` (optional): Page to fetch and render. Defaults to 1.
 
 - *Request Body:*
     - `searchTerm`: String to match. Defaults to an empty string, which results in all questions being matched and returned.
