@@ -137,7 +137,7 @@ def create_app(test_config=None):
         return jsonify({
             'success': True,
             'message': 'question created',
-            'created_id': qid,
+            'id': qid,
         }), 201
 
 
