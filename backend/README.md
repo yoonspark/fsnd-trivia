@@ -309,3 +309,47 @@ $ curl "http://127.0.0.1:5000/questions/search" \
   "total_questions": 1
 }
 ```
+
+---
+
+### `POST` */questions*
+
+Create a new question.
+
+#### REQUEST
+
+- *Path Parameters:* None
+
+- *Query Parameters:* None
+
+- *Request Body:*
+    - `question`: Question string.
+    - `answer`: Answer string.
+    - `difficulty`: Level of difficulty (integer between 1 and 5).
+    - `category`: Category ID.
+
+- *Example:*
+```
+$ curl "http://127.0.0.1:5000/questions" \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+        "question": "test question",
+        "answer": "test answer",
+        "difficulty": 3,
+        "category": 1
+    }'
+```
+
+#### RESPONSE
+
+- `201`: Returns success message and ID of the created question.
+
+- *Example:*
+```
+{
+  "created_id": 24,
+  "message": "question created",
+  "success": true
+}
+```
