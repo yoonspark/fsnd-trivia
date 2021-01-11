@@ -217,7 +217,7 @@ Fetch questions under a given category.
 #### REQUEST
 
 - *Path Parameters:*
-    - `category_id`: ID integer of the category to fetch questions for.
+    - `category_id`: ID of the category to fetch questions for.
 
 - *Query Parameters:*
     - `page` (optional): Page to fetch and render. Defaults to 1.
@@ -350,6 +350,40 @@ $ curl "http://127.0.0.1:5000/questions" \
 {
   "id": 24,
   "message": "question created",
+  "success": true
+}
+```
+
+---
+
+### `DELETE` */questions/<question_id>*
+
+Delete an existing question.
+
+#### REQUEST
+
+- *Path Parameters:* None
+    - `question_id`: ID of the question to be deleted.
+
+- *Query Parameters:* None
+
+- *Request Body:* None
+
+- *Example:*
+```
+$ curl "http://127.0.0.1:5000/questions/24" \
+    -X DELETE
+```
+
+#### RESPONSE
+
+- `200`: Returns success message and ID of the deleted question.
+
+- *Example:*
+```
+{
+  "id": 24,
+  "message": "question deleted",
   "success": true
 }
 ```
