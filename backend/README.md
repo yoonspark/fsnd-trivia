@@ -387,3 +387,48 @@ $ curl "http://127.0.0.1:5000/questions/24" \
   "success": true
 }
 ```
+
+---
+
+### `POST` */quizzes*
+
+Draw a new question to play.
+
+#### REQUEST
+
+- *Path Parameters:* None
+
+- *Query Parameters:* None
+
+- *Request Body:*
+    - `previous_questions`: Array of question IDs that have been already played. Defaults to an empty array.
+    - `quiz_category`: Category ID being played. Defaults to null.
+
+- *Example:*
+```
+$ curl "http://127.0.0.1:5000/quizzes" \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+        "previous_questions": [16, 17],
+        "quiz_category": 2
+    }'
+```
+
+#### RESPONSE
+
+- `200`: Returns a new question to play.
+
+- *Example:*
+```
+{
+  "question": {
+    "answer": "Jackson Pollock",
+    "category": 2,
+    "difficulty": 2,
+    "id": 19,
+    "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?"
+  },
+  "success": true
+}
+```
