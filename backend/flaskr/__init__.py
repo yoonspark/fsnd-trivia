@@ -90,7 +90,7 @@ def create_app(test_config=None):
         })
 
 
-    @app.route('/questions', methods=['POST'])
+    @app.route('/questions/search', methods=['POST'])
     def search_questions():
         body = request.get_json()
         if body:

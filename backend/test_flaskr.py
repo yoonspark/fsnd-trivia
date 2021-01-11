@@ -74,7 +74,7 @@ class TriviaTestCase(unittest.TestCase):
     # --- SEARCH QUESTIONS --- #
 
     def test_search_questions(self):
-        res = self.client().post('/questions', json={'searchTerm': 'medicine'})
+        res = self.client().post('/questions/search', json={'searchTerm': 'medicine'})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -84,7 +84,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(len(data['questions']), 1)
 
     def test_search_questions_no_match(self):
-        res = self.client().post('/questions', json={'searchTerm': '한국'})
+        res = self.client().post('/questions/search', json={'searchTerm': '한국'})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -94,7 +94,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(len(data['questions']), 0)
 
     def test_search_questions_no_args_passed(self):
-        res = self.client().post('/questions')
+        res = self.client().post('/questions/search')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 400)

@@ -267,7 +267,7 @@ $ curl "http://127.0.0.1:5000/categories/1/questions"
 
 ---
 
-### `POST` */questions*
+### `POST` */questions/search*
 
 Search questions that match the provided string.
 
@@ -283,7 +283,7 @@ Search questions that match the provided string.
 
 - *Example:*
 ```
-$ curl "http://127.0.0.1:5000/questions" \
+$ curl "http://127.0.0.1:5000/questions/search" \
     -X POST \
     -H "Content-Type: application/json" \
     -d '{"searchTerm": "medicine"}'
