@@ -194,6 +194,17 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertIsInstance(data['question'], dict)
 
+    def test_draw_next_question_no_category_given(self):
+        res = self.client().post('/quizzes', json={
+            'previous_questions': [16, 17],
+            'quiz_category': None,
+        })
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertIsInstance(data['question'], dict)
+
     def test_draw_next_question_nothing_left(self):
         res = self.client().post('/quizzes', json={
             'previous_questions': [16, 17, 18, 19],
