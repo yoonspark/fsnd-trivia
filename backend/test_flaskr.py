@@ -101,6 +101,56 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'bad request')
 
+    # --- CREATE QUESTION --- #
+
+    def test_create_question(self):
+        res = self.client().post('/questions', json={
+            'question': 'test question',
+            'answer': 'test answer',
+            'difficulty': 3,
+            'category': 1,
+        })
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 201)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['message'], 'question created')
+        self.assertIsInstance(data['created_id'], int)
+
+    def test_create_question_empty_question(self):
+        res = self.client().post('/questions', json={
+            'question': '',
+            'answer': 'test answer',
+            'difficulty': 3,
+            'category': 1,
+        })
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'unprocessable entity')
+
+    def test_create_question_empty_answer(self):
+        res = self.client().post('/questions', json={
+            'question': 'test question',
+            'answer': '',
+            'difficulty': 3,
+            'category': 1,
+        })
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'unprocessable entity')
+
+    def test_create_question_no_args_passed(self):
+        res = self.client().post('/questions')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'bad request')
+
 
 # Make the tests conveniently executable
 if __name__ == "__main__":

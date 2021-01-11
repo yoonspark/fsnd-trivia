@@ -1,4 +1,5 @@
 import os
+import sys
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -111,24 +112,41 @@ def create_app(test_config=None):
         })
 
 
+    @app.route('/questions', methods=['POST'])
+    def create_questions():
+        body = request.get_json()
+        if body:
+            q = Question(
+                question = body.get('question', ''),
+                answer = body.get('answer', ''),
+                difficulty = body.get('difficulty', 1),
+                category = body.get('category', 1)
+            )
+        else:
+            abort(400)
+        if q.question == '' or q.answer == '':
+            abort(422)
+
+        try:
+            q.insert()
+            qid = q.id
+        except:
+            print(sys.exc_info())
+            abort(422)
+
+        return jsonify({
+            'success': True,
+            'message': 'question created',
+            'created_id': qid,
+        }), 201
+
+
     '''
     @TODO:
     Create an endpoint to DELETE question using a question ID.
 
     TEST: When you click the trash icon next to a question, the question will be removed.
     This removal will persist in the database and when you refresh the page.
-    '''
-
-
-    '''
-    @TODO:
-    Create an endpoint to POST a new question,
-    which will require the question and answer text,
-    category, and difficulty score.
-
-    TEST: When you submit a question on the "Add" tab,
-    the form will clear and the question will appear at the end of the last page
-    of the questions list in the "List" tab.
     '''
 
 
@@ -171,6 +189,15 @@ def create_app(test_config=None):
             "error": 404,
             "message": "resource not found",
         }), 404
+
+
+    @app.errorhandler(422)
+    def not_found(error):
+        return jsonify({
+            'success': False,
+            'error': 422,
+            'message': 'unprocessable entity',
+        }), 422
 
 
     return app
