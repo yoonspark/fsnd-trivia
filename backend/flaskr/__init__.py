@@ -172,8 +172,8 @@ def create_app(test_config=None):
 
         # If no category is given, randomly select one
         if not quiz_category:
-            categories = Category.query.all()
-            quiz_category = random.choice([c.id for c in categories])
+            categories = [c.id for c in Category.query.all()]
+            quiz_category = random.choice(categories)
 
         # Randomly draw an unplayed question
         candidate_questions = Question.query.filter(
