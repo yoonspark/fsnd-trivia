@@ -166,18 +166,18 @@ def create_app(test_config=None):
         body = request.get_json()
         if body:
             previous_questions = body.get('previous_questions', [])
-            quiz_category = body.get('quiz_category', None)
+            quiz_category = body.get('quiz_category', {})
         else:
             abort(400)
 
-        # If no category is given, randomly select one
-        if not quiz_category:
-            categories = [c.id for c in Category.query.all()]
-            quiz_category = random.choice(categories)
+        if quiz_category:
+            category_id = quiz_category.get('id')
+        else:
+            abort(400)
 
         # Randomly draw an unplayed question
         candidate_questions = Question.query.filter(
-            Question.category == quiz_category,
+            Question.category == category_id,
             ~Question.id.in_(previous_questions),
         ).all()
         if not candidate_questions:
