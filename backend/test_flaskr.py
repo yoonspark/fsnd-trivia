@@ -186,7 +186,7 @@ class TriviaTestCase(unittest.TestCase):
     def test_draw_next_question(self):
         res = self.client().post('/quizzes', json={
             'previous_questions': [16, 17],
-            'quiz_category': 2,
+            'quiz_category': {'id': 2, 'type': 'Art'},
         })
         data = json.loads(res.data)
 
@@ -197,24 +197,23 @@ class TriviaTestCase(unittest.TestCase):
     def test_draw_next_question_no_category_given(self):
         res = self.client().post('/quizzes', json={
             'previous_questions': [16, 17],
-            'quiz_category': None,
+        })
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'bad request')
+
+    def test_draw_next_question_nothing_left(self):
+        res = self.client().post('/quizzes', json={
+            'previous_questions': [16, 17, 18, 19],
+            'quiz_category': {'id': 2, 'type': 'Art'},
         })
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertIsInstance(data['question'], dict)
-
-    def test_draw_next_question_nothing_left(self):
-        res = self.client().post('/quizzes', json={
-            'previous_questions': [16, 17, 18, 19],
-            'quiz_category': 2,
-        })
-        data = json.loads(res.data)
-
-        self.assertEqual(res.status_code, 404)
-        self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'resource not found')
+        self.assertEqual(data['question'], {})
 
 
 # Make the tests conveniently executable
