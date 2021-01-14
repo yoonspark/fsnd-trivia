@@ -3,7 +3,7 @@ import sys
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-import random
+from sqlalchemy.sql.expression import func
 
 from models import setup_db, Question, Category
 
@@ -171,23 +171,31 @@ def create_app(test_config=None):
             abort(400)
 
         if quiz_category:
-            category_id = quiz_category.get('id')
+            category_id = int(quiz_category.get('id'))
         else:
             abort(400)
 
         # Randomly draw an unplayed question
         candidate_questions = Question.query.filter(
             Question.category == category_id,
-            ~Question.id.in_(previous_questions),
-        ).all()
-        if not candidate_questions:
-            abort(404)
-        next_question = random.choice(candidate_questions)
+            Question.id.notin_(previous_questions),
+        ) if category_id > 0 else Question.query.filter(
+            Question.id.notin_(previous_questions),
+        )
+        next_question = candidate_questions.order_by(
+            func.random()
+        ).first()
 
-        return jsonify({
-            'success': True,
-            'question': next_question.format(), # Serialize
-        })
+        if not next_question:
+            return jsonify({
+                'success': True,
+                'question': {}
+            })
+        else:
+            return jsonify({
+                'success': True,
+                'question': next_question.format(), # Serialize
+            })
 
 
     @app.errorhandler(400)
